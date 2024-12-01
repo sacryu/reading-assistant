@@ -8,27 +8,60 @@ import { Message } from './types';
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isFileUploading, setIsFileUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // const handleFileSelect = async (file: File) => {
+  //   try {
+  //     setIsFileUploading(true);
+  //     setError(null);
+  //     setSelectedFile(file);
+
+  //     const formData = new FormData();
+  //     formData.append('file', file);
+
+  //     const response = await fetch('http://localhost:8000/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to upload file');
+  //     }
+
+  //     setMessages([{
+  //       role: 'assistant',
+  //       content: `I've loaded ${file.name}. How can I help you understand it?`
+  //     }]);
+  //   } catch (err) {
+  //     setError(err instanceof Error ? err.message : 'An error occurred');
+  //   } finally {
+  //     setIsFileUploading(false);
+  //   }
+  // };
   const handleFileSelect = async (file: File) => {
     try {
-      setIsLoading(true);
+      setIsFileUploading(true);
       setError(null);
       setSelectedFile(file);
-
+  
       const formData = new FormData();
       formData.append('file', file);
-
-      const response = await fetch('http://localhost:8000/upload', {
+  
+      // 发送到后端转换接口
+      const response = await fetch('http://localhost:8000/convert', {
         method: 'POST',
         body: formData,
       });
-
+  
       if (!response.ok) {
-        throw new Error('Failed to upload file');
+        throw new Error('Failed to convert file');
       }
-
+  
+      // 假设后端返回 HTML 内容
+      const { html } = await response.json();
+      setDocumentHtml(html); // 需要添加这个状态
+  
       setMessages([{
         role: 'assistant',
         content: `I've loaded ${file.name}. How can I help you understand it?`
@@ -36,7 +69,7 @@ const App: React.FC = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
-      setIsLoading(false);
+      setIsFileUploading(false);
     }
   };
 
@@ -52,7 +85,7 @@ const App: React.FC = () => {
         <DocumentViewer
           file={selectedFile}
           onFileSelect={handleFileSelect}
-          isLoading={isLoading}
+          isLoading={isFileUploading}
           error={error}
         />
         <ChatPanel messages={messages} setMessages={setMessages} />
