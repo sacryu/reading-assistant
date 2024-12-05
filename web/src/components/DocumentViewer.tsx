@@ -50,7 +50,7 @@ const DocumentViewer: React.FC<Props> = ({ documentUrl, error }) => {
         <div ref={viewerRef} className="pdf-container"></div>
       )}
 
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 };

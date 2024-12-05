@@ -22,11 +22,6 @@
   cursor: col-resize;
 }
 
-.error {
-  color: red;
-  padding: 20px;
-}
-
 .loading {
   padding: 20px;
   text-align: center;
@@ -61,22 +56,6 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-}
-
-.or-divider {
-  margin: 2rem 0;
-  color: #666;
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-
-.or-divider::before,
-.or-divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid #ddd;
-  margin: 0 1rem;
 }
 
 .error-message {
