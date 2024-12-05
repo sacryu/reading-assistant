@@ -1,0 +1,14 @@
+.document-viewer {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.pdf-container {
+  height: 100%;
+  width: 100%;
+}
+
+.pdf-container iframe {
+  border: none;
+}
