@@ -91,3 +91,55 @@
   width: 20px;
   height: 20px;
 }
+
+.button-group {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clear-button {
+  position: absolute;
+  top: 12px;
+  right: 70px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.2s ease;
+}
+
+.clear-button:hover {
+    background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.clear-button::after {
+  content: "NewChat";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.clear-button:hover::after {
+  opacity: 1;
+  visibility: visible;
+}

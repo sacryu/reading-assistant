@@ -17,13 +17,17 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     // Initialize messages from 本地浏览器
+    // const [messages, setMessages] = useState<Message[]>(() => {
+    //     const saved = localStorage.getItem('chatMessages');
+    //     return saved ? JSON.parse(saved) : [{
+    //         id: Date.now(),
+    //         text: "I've loaded your document. What can I help with?",
+    //         role: 'assistant'
+    //     }];
+    // });
     const [messages, setMessages] = useState<Message[]>(() => {
         const saved = localStorage.getItem('chatMessages');
-        return saved ? JSON.parse(saved) : [{
-            id: Date.now(),
-            text: "I've loaded your document. What can I help with?",
-            role: 'assistant'
-        }];
+        return saved ? JSON.parse(saved) : [];
     });
 
     // save messages to 本地浏览器

@@ -38,9 +38,39 @@ export const ChatPanel: React.FC = () => {
       });
       const data = await response.json();
       setSessionId(data.session_id);
-      
+      setMessages([{
+        id: Date.now(),
+        text: "I've loaded your document. What can I help with?",
+        role: 'assistant'
+      }]);
     } catch (error) {
       console.error('Failed to create session:', error);
+    }
+  };
+
+  const handleClearChat = async () => {
+    try {
+      // Create new session
+      const response = await fetch('http://localhost:8000/create_session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_assistant_id: CHAT_ASSISTANT_ID
+        }),
+      });
+      const data = await response.json();
+
+      // Update session and clear messages
+      setSessionId(data.session_id);
+      setMessages([{
+        id: Date.now(),
+        text: "I've loaded your document. What can I help with?",
+        role: 'assistant'
+      }]);
+    } catch (error) {
+      console.error('Failed to clear chat:', error);
     }
   };
 
@@ -113,6 +143,9 @@ export const ChatPanel: React.FC = () => {
 
   return (
     <div className="chat-panel">
+      <div className="button-group">
+        <button onClick={handleClearChat} className="clear-button">+</button>
+      </div>
       <div className="messages-container">
         {messages.map(message => (
           <ChatMessage key={message.id} message={message} />
