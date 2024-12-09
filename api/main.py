@@ -1,9 +1,23 @@
-from fastapi import FastAPI, File, UploadFile
+from typing import List, Optional
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from openai import OpenAI
 from pydantic import BaseModel
-from typing import List
+
+from ragflow import create_session_with_chat_assistant, converse_with_chat_assistant
+
+
+class ChatSessionRequest(BaseModel):
+    chat_assistant_id: str
+
+
+class ChatRequest(BaseModel):
+    chat_assistant_id: str
+    session_id: str
+    query: str
+
 
 app = FastAPI()
 
@@ -16,28 +30,37 @@ app.add_middleware(
 )
 
 
-class Message(BaseModel):
-    role: str
-    content: str
-
-
-class ChatRequest(BaseModel):
-    messages: List[Message]
+@app.post("/create_session")
+async def create_session(request: ChatSessionRequest):
+    try:
+        session_id = create_session_with_chat_assistant(
+            request.chat_assistant_id,
+        )
+        return JSONResponse(
+            status_code=200,
+            content={
+                "session_id": session_id,
+                "message": "Session created successfully",
+            },
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
-    # Integrate with your preferred LLM here
-    # For example, using OpenAI's API
-    # response = await openai.ChatCompletion.create(
-    #     model="gpt-3.5-turbo",
-    #     messages=request.messages
-    # )
-
-    # Placeholder response
-    return {
-        "response": "This is a placeholder response. Integrate with your preferred LLM."
-    }
+    try:
+        response = converse_with_chat_assistant(
+            chat_id=request.chat_assistant_id,
+            session_id=request.session_id,
+            query=request.query,
+        )
+        return StreamingResponse(
+            response,
+            media_type="text/plain",
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":

@@ -1,14 +1,13 @@
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Split from 'react-split';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './App.css';
 import { ChatPanel } from './components/ChatPanel';
 import DocumentViewer from './components/DocumentViewer';
-import { Message } from './types';
+import { ChatProvider } from './contexts/ChatContext';
 
 const App: React.FC = () => {
   const [documentUrl, setDocumentUrl] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [showViewer, setShowViewer] = useState(false);
 
@@ -20,11 +19,6 @@ const App: React.FC = () => {
     if (savedUrl && savedShowViewer === 'true') {
       setDocumentUrl(savedUrl);
       setShowViewer(true);
-      setMessages([{
-        id: Date.now(),
-        role: 'assistant',
-        text: `I've loaded your document. How can I help you understand it?`
-      }]);
     }
   }, []);
 
@@ -44,20 +38,15 @@ const App: React.FC = () => {
 
     setError(null);
     setShowViewer(true);
-    setMessages([{
-      id: Date.now(),
-      role: 'assistant',
-      text: `I've loaded your document. How can I help you understand it?`
-    }]);
   };
 
   const handleBackToHome = () => {
-    // 清除状态和 localStorage
     localStorage.removeItem('documentUrl');
     localStorage.removeItem('showViewer');
+    localStorage.removeItem('chatMessages');
+    localStorage.removeItem('chatSessionId');
     setDocumentUrl('');
     setShowViewer(false);
-    setMessages([]);
     setError(null);
   };
 
@@ -74,7 +63,6 @@ const App: React.FC = () => {
             <div className="start-container">
               <h1>Document Reader</h1>
               <p>Enter a URL to your document</p>
-
               <form onSubmit={handleUrlSubmit} className="url-form">
                 <input
                   type="text"
@@ -85,12 +73,11 @@ const App: React.FC = () => {
                 />
                 <button type="submit">Load Document</button>
               </form>
-
               {error && <div className="error-message">{error}</div>}
             </div>
           </div>
         ) : (
-          <div className="app">
+          <ChatProvider>
             <div className="app">
               <Split
                 className="split"
@@ -104,11 +91,11 @@ const App: React.FC = () => {
                   <button onClick={handleBackToHome} className="back-button">
                     ×
                   </button>
-                  <ChatPanel messages={messages} setMessages={setMessages} />
+                  <ChatPanel />
                 </div>
               </Split>
             </div>
-          </div>
+          </ChatProvider>
         )}
       </CSSTransition>
     </TransitionGroup>
