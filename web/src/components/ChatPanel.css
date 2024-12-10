@@ -34,7 +34,7 @@
 }
 
 .message-content {
-  padding: 12px 16px;
+  padding: 12px 14px;
   border-radius: 12px;
   font-size: 16px;
   line-height: 1.5;
@@ -44,6 +44,7 @@
   background-color: transparent;
   color: #000;
   padding: 0;
+  margin-top: -5px;
 }
 
 .message.user .message-content {
@@ -92,6 +93,7 @@
   height: 20px;
 }
 
+/* NewChat 按钮样式 */
 .button-group {
   padding: 10px;
   display: flex;
@@ -119,7 +121,7 @@
 }
 
 .clear-button:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.65);
 }
 
@@ -142,4 +144,74 @@
 .clear-button:hover::after {
   opacity: 1;
   visibility: visible;
+}
+
+.clear-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 大模型回答前的loading动画 */
+.loading-indicator {
+  display: flex;
+  gap: 4px;
+  margin: 0px 10px;
+  padding-top: 10px;
+}
+
+.loading-indicator .dot {
+  width: 8px;
+  height: 8px;
+  background: #666;
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out;
+}
+
+.loading-indicator .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-indicator .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { 
+    transform: scale(0);
+  } 
+  40% { 
+    transform: scale(1.0);
+  }
+}
+
+/* markdown格式显示大模型输出 */
+.message-content h1,
+.message-content h2,
+.message-content h3 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.message-content ul,
+.message-content ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.message-content p {
+  margin: 0.5em 0;
+}
+
+.message-content code {
+  background-color: #f0f0f0;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.message-content pre {
+  background-color: #f5f5f5;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
 }

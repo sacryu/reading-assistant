@@ -39,17 +39,18 @@
   width: 90%;
 }
 
-.url-form {
-  margin: 2rem 0;
+.document-select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
-.url-input {
+.document-form {
   width: 100%;
-  padding: 0.8rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  max-width: 500px;
 }
 
 .error-message {
@@ -97,7 +98,7 @@ button:hover {
 }
 
 .back-button:hover {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.65);
 }
 

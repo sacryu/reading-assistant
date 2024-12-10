@@ -32,3 +32,4 @@ node_modules
 .idea/inspectionProfiles/Project_Default.xml
 api/__pycache__/main.cpython-311.pyc
 api/__pycache__/ragflow.cpython-311.pyc
+api/.env

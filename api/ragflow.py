@@ -110,6 +110,7 @@ def create_session_with_chat_assistant(chat_id):
 
 
 def converse_with_chat_assistant(chat_id, session_id, query):
+    logger.info(f"Conversing with chat assistant for query: {query}")
     url = f"{base_url}/api/v1/chats/{chat_id}/completions"
     headers = {"Authorization": f"Bearer {api_key}"}
     data = {"session_id": session_id, "question": query, "stream": True}

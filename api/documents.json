@@ -1,0 +1,20 @@
+{
+  "documents": [
+    {
+      "id": "doc1",
+      "name": "财报 - 达梦2024",
+      "url": "https://filemanager.woordee.com/woordee/2024-12-06/a2db5ab0ec2e86de01fc1cdb096beb9a.pdf",
+      "source": "ragflow",
+      "assistant_id": "957af222b5ca11efb7770242ac1e0006",
+      "description": "武汉达梦数据库股份有限公司2024 年半年度报告"
+    },
+    {
+      "id": "doc2",
+      "name": "保险 - 平安产险医疗费用补偿保险",
+      "url": "https://filemanager.woordee.com/woordee/2024-12-10/42699209d283de5088942bf277b49e0e.docx",
+      "source": "ragflow",
+      "assistant_id": "d3dacae4b6ea11efb69a0242ac1e0006",
+      "description": "中国平安财产保险股份有限公司 平安产险医疗费用补偿保险"
+    }
+  ]
+}
