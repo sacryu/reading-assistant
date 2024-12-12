@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import './DocumentViewer.css';
 
 interface Props {
   documentUrl: string;
@@ -35,7 +34,7 @@ const DocumentViewer: React.FC<Props> = ({ documentUrl, error }) => {
   }, [documentUrl, isPdfDocument]);
 
   return (
-    <div className="document-viewer">
+    <div className="h-full w-full overflow-hidden">
       {isWordDocument && (
         <iframe
           src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(documentUrl)}`}
@@ -47,10 +46,10 @@ const DocumentViewer: React.FC<Props> = ({ documentUrl, error }) => {
       )}
 
       {isPdfDocument && (
-        <div ref={viewerRef} className="pdf-container"></div>
+        <div ref={viewerRef} className="h-full w-full"></div>
       )}
 
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="text-red-500">{error}</div>}
     </div>
   );
 };
