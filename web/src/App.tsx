@@ -72,83 +72,87 @@ const App: React.FC = () => {
   };
 
   return (
-    <TransitionGroup>
-      <CSSTransition
-        key={showViewer ? 'viewer' : 'start'}
-        timeout={300}
-        classNames="page"
-        unmountOnExit
-      >
-        {!showViewer ? (
-          <div className="flex items-center justify-center h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-lg w-11/12">
-              <h1 className="text-2xl font-bold mb-4">Document Reader</h1>
-              <p className="mb-4">Select a document to read</p>
-              <form onSubmit={handleDocumentSelect} className="w-full max-w-lg">
-                <select
-                  value={selectedDocument}
-                  onChange={(e) => setSelectedDocument(e.target.value)}
-                  className="w-full p-2 mb-4 border border-gray-300 rounded"
-                >
-                  <option value="">Select a document...</option>
-                  {documents.map((doc) => (
-                    <option key={doc.id} value={doc.url}>
-                      {doc.name}
-                      {doc.source && ` (${doc.source})`}
-                      {/* {doc.description && ` - ${doc.description}`} */}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
-                  Load Document
-                </button>
-              </form>
-              {error && <div className="text-red-500 mt-4">{error}</div>}
-            </div>
-          </div>
-        ) : (
-          <ChatProvider>
-            <div className="h-screen w-screen overflow-hidden">
-              <Split
-                className="flex w-full h-full"
-                sizes={[50, 50]}
-                minSize={300}
-                gutterSize={10}
-                snapOffset={30}
-                gutter={(index, direction) => {
-                  const gutterElement = document.createElement('div');
-                  gutterElement.className = `gutter gutter-${direction}`;
-                  return gutterElement;
-                }}
-              >
-                <DocumentViewer documentUrl={selectedDocument} error={error} />
-                <div className="relative h-full">
-                  <button 
-                    onClick={handleBackToHome} 
-                    className={`absolute top-3 right-4 w-12 h-12 border-none rounded-lg 
-                    bg-white text-black text-3xl font-bold cursor-pointer flex items-center justify-center z-[1000] 
-                    transition-all duration-200 ease-in-out
-                    hover:bg-black/20 hover:text-black/65 
-                    group`}
-                  >
-                    ×
-                    <span className="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 
-                      bg-black text-white px-2 py-1 rounded text-sm
-                      opacity-0 invisible group-hover:opacity-100 group-hover:visible 
-                      transition-all duration-200 ease-in-out">
-                      Close
-                    </span>
-                  </button>
-                  {selectedDocInfo && (
-                    <ChatPanel assistant_id={selectedDocInfo.assistant_id} />
-                  )}
+    <div className="h-screen relative overflow-hidden">
+      <TransitionGroup>
+        <CSSTransition
+          key={showViewer ? 'viewer' : 'home'}
+          timeout={300}
+          classNames="page"
+          unmountOnExit
+        >
+          <div className="absolute inset-0">
+            {!showViewer ? (
+              <div className="flex items-center justify-center h-full bg-gray-100">
+                <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-lg w-11/12">
+                  <h1 className="text-2xl font-bold mb-4">Document Reader</h1>
+                  <p className="mb-4">Select a document to read</p>
+                  <form onSubmit={handleDocumentSelect} className="w-full max-w-lg">
+                    <select
+                      value={selectedDocument}
+                      onChange={(e) => setSelectedDocument(e.target.value)}
+                      className="w-full p-2 mb-4 border border-gray-300 rounded"
+                    >
+                      <option value="">Select a document...</option>
+                      {documents.map((doc) => (
+                        <option key={doc.id} value={doc.url}>
+                          {doc.name}
+                          {doc.source && ` (${doc.source})`}
+                          {/* {doc.description && ` - ${doc.description}`} */}
+                        </option>
+                      ))}
+                    </select>
+                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+                      Load Document
+                    </button>
+                  </form>
+                  {error && <div className="text-red-500 mt-4">{error}</div>}
                 </div>
-              </Split>
-            </div>
-          </ChatProvider>
-        )}
-      </CSSTransition>
-    </TransitionGroup>
+              </div>
+            ) : (
+              <ChatProvider>
+                <div className="h-full w-screen overflow-hidden">
+                  <Split
+                    className="flex w-full h-full"
+                    sizes={[50, 50]}
+                    minSize={300}
+                    gutterSize={10}
+                    snapOffset={30}
+                    gutter={(index, direction) => {
+                      const gutterElement = document.createElement('div');
+                      gutterElement.className = `gutter gutter-${direction}`;
+                      return gutterElement;
+                    }}
+                  >
+                    <DocumentViewer documentUrl={selectedDocument} error={error} />
+                    <div className="relative h-full">
+                      <button 
+                        onClick={handleBackToHome} 
+                        className={`absolute top-3 right-4 w-12 h-12 border-none rounded-lg 
+                        bg-white text-black text-3xl font-bold cursor-pointer flex items-center justify-center z-[1000] 
+                        transition-all duration-200 ease-in-out
+                        hover:bg-black/20 hover:text-black/65 
+                        group`}
+                      >
+                        ×
+                        <span className="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 
+                          bg-black text-white px-2 py-1 rounded text-sm
+                          opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+                          transition-all duration-200 ease-in-out">
+                          Close
+                        </span>
+                      </button>
+                      {selectedDocInfo && (
+                        <ChatPanel assistant_id={selectedDocInfo.assistant_id} />
+                      )}
+                    </div>
+                  </Split>
+                </div>
+              </ChatProvider>
+            )}
+          </div>
+        </CSSTransition>
+      </TransitionGroup>
+    </div>
   );
 };
 
