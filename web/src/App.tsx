@@ -17,7 +17,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/documents');
+        const response = await fetch('/api/documents');
         const data = await response.json();
         setDocuments(data);
       } catch (err) {

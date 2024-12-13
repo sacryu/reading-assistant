@@ -53,7 +53,7 @@ async def get_documents():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/create_session")
+@app.post("/api/create_session")
 async def create_session(request: ChatSessionRequest):
     try:
         session_id = create_session_with_chat_assistant(
@@ -70,7 +70,7 @@ async def create_session(request: ChatSessionRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/chat")
+@app.post("/api/chat")
 async def chat(request: ChatRequest):
     try:
         response = converse_with_chat_assistant(

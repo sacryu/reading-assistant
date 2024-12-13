@@ -75,14 +75,14 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ assistant_id }) => {
 
   const api = {
     createSession: () =>
-      fetch('http://localhost:8000/create_session', {
+      fetch('/api/create_session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_assistant_id: assistant_id })
       }),
 
     sendMessage: (sessionId: string, query: string) =>
-      fetch('http://localhost:8000/chat', {
+      fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
